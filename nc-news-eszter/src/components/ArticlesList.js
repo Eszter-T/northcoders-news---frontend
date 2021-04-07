@@ -1,3 +1,4 @@
+import { Link } from '@reach/router';
 import moment from 'moment';
 import { Component } from 'react';
 import { fetchArticles } from '../api';
@@ -32,9 +33,11 @@ class ArticlesList extends Component {
       <main className="articles-list">
         {articles.map(({ article_id, title, author, topic, created_at }) => {
           return (
-            <section key={article_id}>
+            <section key={article_id}> 
               <div className="articles-content">
-                <h2>{title}</h2>
+                <Link to={`/articles/${article_id}`}>
+                  <h2>{title}</h2>
+                </Link>  
                 <h3> by {author}</h3>
               </div>
               <span className="articles-topic">{topic}</span>
