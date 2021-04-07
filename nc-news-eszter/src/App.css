@@ -91,6 +91,32 @@
   text-decoration: none;
 }
 
+.comments section {
+  border: 3px rgb(255, 214, 10) solid;
+  margin: 10px;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 30px auto;
+  grid-template-areas: 
+  "date author"
+  "comment-content comment-content";
+}
+
+.comment-date {
+  grid-area: date;
+  text-align: left;
+}
+
+.comment-author {
+  grid-area: author;
+  text-align: right;
+}
+
+.comment-content {
+  grid-area: comment-content;
+}
+
 @media only screen and (min-width: 800px) {
   .App {
     display: grid;

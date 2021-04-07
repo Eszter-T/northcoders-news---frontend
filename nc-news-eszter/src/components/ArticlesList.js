@@ -25,9 +25,9 @@ class ArticlesList extends Component {
     fetchArticles(topic).then((articles) => {
         this.setState({ articles });
       });
-  }
+  };
 
-  render () {
+  render() {
     const { articles } = this.state;
     return (
       <main className="articles-list">
@@ -47,8 +47,8 @@ class ArticlesList extends Component {
         })
         }
       </main>
-    )
-  }
+    );
+  };
 
 };
 

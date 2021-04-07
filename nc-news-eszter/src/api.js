@@ -21,3 +21,9 @@ export const fetchArticle = (article_id) => {
     return data.article;
   })
 };
+
+export const fetchComments = (article_id) => {
+  return request.get(`/articles/${article_id}/comments`).then(({ data }) => {
+    return data.comments;
+  });
+};
