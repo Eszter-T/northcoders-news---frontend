@@ -13,7 +13,7 @@ class NavBar extends Component {
       this.setState({ topics });
     });
   };
-
+  
   render () {
     const { topics } = this.state;
     return (

@@ -1,22 +1,37 @@
 import { Component } from 'react';
-import { fetchArticle } from '../api';
+import { fetchArticle, fetchComments } from '../api';
+import AddComment from './AddComment';
 import Comments from './Comments';
+import ErrorPage from './ErrorPage';
 import Voter from './Voter';
 
 class ArticlesCard extends Component {
   state = {
     article: {},
+    comments: [],
+    err: null
   };
 
   componentDidMount() {
-    const { article_id } = this.props;
-    fetchArticle(article_id).then((article) => {
-      this.setState({ article });
-    });
+    console.log("Mounted")
+    Promise.all([
+      fetchArticle(this.props.article_id),
+      fetchComments(this.props.article_id)
+    ])
+    .then(([article, comments]) => {
+      this.setState({ article, comments })
+    })
+    .catch((err) => {
+      this.setState({ err: err })
+    })
+  };
+  
+  addPostedComment = (newComment) => {
+    this.componentDidMount();
   };
 
   render() {
-    const { article } = this.state;
+    const { article, comments, err } = this.state;
     const {
       title,
       author,
@@ -25,7 +40,13 @@ class ArticlesCard extends Component {
       comment_count,
       article_id
     } = article;
-    console.log(article_id)
+    
+    if (err) {
+      return (
+        <ErrorPage status={err.response.status} msg={err.response.data.msg} />
+      )
+    }
+
     if (article_id === undefined) {
       return (
         <h1>Loading...</h1>
@@ -40,8 +61,9 @@ class ArticlesCard extends Component {
           <Voter type="articles" id={article_id} votes={votes}/>
         </div>
         <p>{body}</p>
-        <p>comments {comment_count}</p>
-        <Comments article_id={article_id}/>
+        <p>{comment_count} comments</p>
+        <AddComment article_id={article_id} addPostedComment={this.addPostedComment} />
+        <Comments article_id={article_id} comments={comments} />
       </main>
     )
   };

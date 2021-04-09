@@ -10,8 +10,8 @@ export const fetchTopics = () => {
   });
 };
 
-export const fetchArticles = (topic, p) => {
-  return request.get("/articles", { params: { topic: topic, p: p }}).then(({ data }) => {
+export const fetchArticles = (topic, p, sort_by) => {
+  return request.get("/articles", { params: { topic: topic, p: p, sort_by }}).then(({ data }) => {
     return data;
   });
 };
@@ -32,3 +32,8 @@ export const changeVotes = (type, id, increment) => {
   return request.patch(`/${type}/${id}`, { inc_votes: increment });
 };
 
+export const postComment = (article_id, newComment) => {
+  return request.post(`/articles/${article_id}/comments`, newComment).then(({ data }) => {
+    return data.comment;
+  });
+};

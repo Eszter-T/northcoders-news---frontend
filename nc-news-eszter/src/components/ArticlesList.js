@@ -9,27 +9,38 @@ class ArticlesList extends Component {
     articles: [],
     p: 1,
     total_count: 0,
+    sort_by: 'created_at',
+    err: null
   };
   
   componentDidMount() {
     const { topic } = this.props;
     this.getArticles(topic);
+    const storedSortBy = localStorage.getItem('sort_by');
+    if (storedSortBy) {
+      this.setState({ sort_by: storedSortBy });
+    }
   };
 
   componentDidUpdate(prevProps, prevState) {
     const { topic } = this.props;
-    const { p } = this.state;
-    if (topic !== prevProps.topic || p !== prevState.p) {
+    const { p, sort_by } = this.state;
+    if (topic !== prevProps.topic || p !== prevState.p || sort_by !== prevState.sort_by) {
       this.getArticles(topic);   
     };
   };
 
   getArticles = (topic) => {
-    const { p } = this.state;
-    fetchArticles(topic, p).then(({ articles, total_count }) => {
+    const { p, sort_by } = this.state;
+    fetchArticles(topic, p, sort_by).then(({ articles, total_count }) => {
        
         this.setState({ articles, total_count});
       });
+  };
+  
+  setSortedBy = (newSortedBy) => {
+    this.setState({ sort_by: newSortedBy });
+    localStorage.setItem('sort_by', newSortedBy);
   };
 
   changePage = (increment) => {
@@ -41,7 +52,7 @@ class ArticlesList extends Component {
   };
 
   render() {
-    const { articles, p, total_count } = this.state;
+    const { articles, p, total_count, sort_by } = this.state;
     const lastPageNumber = Math.ceil(total_count / 10);
 
     if (articles.length === 0) {
@@ -52,6 +63,12 @@ class ArticlesList extends Component {
 
     return (
       <main className="articles-list">
+        <section className="sort_by">
+          <span>Sort by: {sort_by} </span>
+          <button onClick={() => this.setSortedBy('created_at')}>Date</button>
+          <button onClick={() => this.setSortedBy('votes')}>Votes</button>
+          <button onClick={() => this.setSortedBy('comment_count')}>Comments</button>
+        </section>
         {articles.map(({ article_id, title, author, topic, created_at, votes }) => {
           return (
             <section key={article_id}> 
@@ -63,7 +80,7 @@ class ArticlesList extends Component {
               </div>
               <Voter type="articles" id={article_id} votes={votes} />
               <span className="articles-topic">{topic}</span>
-              <span className="articles-date">{moment(created_at).utcOffset(0).format("LLLL")}</span>
+              <span className="articles-date">{moment(created_at).utcOffset(60).format("LLLL")}</span>
             </section>
           )
         })
