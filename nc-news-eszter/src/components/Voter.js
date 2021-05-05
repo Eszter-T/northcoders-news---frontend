@@ -4,20 +4,22 @@ import { changeVotes } from '../api';
 class Voter extends Component {
   state = {
     voteChanges: 0,
-
   };
   
   updateVotes = (id, increment) => {
     this.setState((currentState) => {
+      const { voteChanges } = this.state;
+      if (voteChanges < 1 && voteChanges > -1) {
       return {
         voteChanges: currentState.voteChanges + increment,
       };
+      }
     });
     changeVotes(this.props.type, id, increment);
   };
 
   render() {
-    const { votes, id} = this.props;
+    const { votes, id } = this.props;
     const { voteChanges } = this.state;
     return (
       <section className="votes">

@@ -5,25 +5,41 @@ import Comments from './Comments';
 import ErrorPage from './ErrorPage';
 import Voter from './Voter';
 
-class ArticlesCard extends Component {
+class SingleArticle extends Component {
   state = {
     article: {},
     comments: [],
+    sort_by: 'created_at',
     err: null
   };
 
   componentDidMount() {
-    console.log("Mounted")
     Promise.all([
       fetchArticle(this.props.article_id),
-      fetchComments(this.props.article_id)
+      fetchComments(this.props.article_id, this.state.sort_by)
     ])
     .then(([article, comments]) => {
-      this.setState({ article, comments })
+      this.setState({ article, comments });
+      const storedSortBy = localStorage.getItem('sort_by');
+      if (storedSortBy) {
+        this.setState({ sort_by: storedSortBy })
+      }
     })
     .catch((err) => {
-      this.setState({ err: err })
+      this.setState({ err: err });
     })
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    const { sort_by } = this.state;
+    if (sort_by !== prevState.sort_by) {
+      this.componentDidMount();
+    }
+  };
+
+  setSortedBy = (newSortedBy) => {
+    this.setState({ sort_by: newSortedBy });
+    localStorage.setItem('sort_by', newSortedBy);
   };
   
   addPostedComment = (newComment) => {
@@ -31,7 +47,7 @@ class ArticlesCard extends Component {
   };
 
   render() {
-    const { article, comments, err } = this.state;
+    const { article, comments, sort_by, err } = this.state;
     const {
       title,
       author,
@@ -61,12 +77,19 @@ class ArticlesCard extends Component {
           <Voter type="articles" id={article_id} votes={votes}/>
         </div>
         <p>{body}</p>
-        <p>{comment_count} comments</p>
         <AddComment article_id={article_id} addPostedComment={this.addPostedComment} />
+        <section className="comments-sort_by">
+          <div id="sort_by">
+            <span>Sort by: {sort_by}</span>
+            <button onClick={() => this.setSortedBy('created_at')}>Date</button>
+            <button onClick={() => this.setSortedBy('votes')}>Votes</button>
+          </div>
+          <div id="comment_count">{comment_count} comments</div>
+        </section>
         <Comments article_id={article_id} comments={comments} />
       </main>
     )
   };
 };
 
-export default ArticlesCard;
+export default SingleArticle;

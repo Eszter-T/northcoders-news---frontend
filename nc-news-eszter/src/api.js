@@ -22,8 +22,8 @@ export const fetchArticle = (article_id) => {
   })
 };
 
-export const fetchComments = (article_id) => {
-  return request.get(`/articles/${article_id}/comments`, { params: { limit: 20 }}).then(({ data }) => {
+export const fetchComments = (article_id, sort_by) => {
+  return request.get(`/articles/${article_id}/comments`, { params: { limit: 20, sort_by }}).then(({ data }) => {
     return data.comments;
   });
 };
@@ -37,3 +37,9 @@ export const postComment = (article_id, newComment) => {
     return data.comment;
   });
 };
+
+/*export const postLoggedInUser = (username, password) => {
+  return request.post("/users", { params: { username: username, password: password }}).then(({ data }) => {
+    return data.user;
+  })
+}*/

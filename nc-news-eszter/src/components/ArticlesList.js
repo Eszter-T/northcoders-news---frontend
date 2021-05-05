@@ -2,6 +2,7 @@ import { Link } from '@reach/router';
 import moment from 'moment';
 import { Component } from 'react';
 import { fetchArticles } from '../api';
+import ErrorPage from './ErrorPage';
 import Voter from './Voter';
 
 class ArticlesList extends Component {
@@ -33,9 +34,11 @@ class ArticlesList extends Component {
   getArticles = (topic) => {
     const { p, sort_by } = this.state;
     fetchArticles(topic, p, sort_by).then(({ articles, total_count }) => {
-       
         this.setState({ articles, total_count});
-      });
+      })
+      .catch((err) => {
+        this.setState({ err: err});
+      })
   };
   
   setSortedBy = (newSortedBy) => {
@@ -52,9 +55,14 @@ class ArticlesList extends Component {
   };
 
   render() {
-    const { articles, p, total_count, sort_by } = this.state;
+    const { articles, p, total_count, sort_by, err } = this.state;
     const lastPageNumber = Math.ceil(total_count / 10);
 
+    if (err) {
+      return (
+        <ErrorPage status={err.response.status} msg={err.response.data.msg} />
+      )
+    }
     if (articles.length === 0) {
       return (
         <h1>Loading...</h1>
