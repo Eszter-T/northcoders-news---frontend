@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { Component } from 'react';
+import DeleteComment from './DeleteComment';
 import Voter from './Voter';
 
 class Comments extends Component {
@@ -9,6 +10,7 @@ class Comments extends Component {
 
   render() {
     const { comments } = this.props;
+    console.log(comments)
     return (
       <main className="comments">
         {comments.map(({ comment_id, author, votes, created_at, body }) => {
@@ -17,7 +19,12 @@ class Comments extends Component {
               <p className="comment-author">{author}</p>
               <p className="comment-date">{moment(created_at).utcOffset(60).format("LLLL")}</p>
               <p className="comment-content">{body}</p>
-              <Voter type="comments" id={comment_id} votes={votes} />  
+              <Voter type="comments" id={comment_id} votes={votes} />
+              {
+                (author === "jessjelly") 
+                  ? <DeleteComment comment_id={comment_id} author={author} onDelete={this.props.onDelete}/> 
+                  : null
+              }
             </section>
           )
         })

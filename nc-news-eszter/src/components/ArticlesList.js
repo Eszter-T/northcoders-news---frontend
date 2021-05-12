@@ -55,7 +55,7 @@ class ArticlesList extends Component {
   };
 
   render() {
-    const { articles, p, total_count, sort_by, err } = this.state;
+    const { articles, p, total_count, err } = this.state;
     const lastPageNumber = Math.ceil(total_count / 10);
 
     if (err) {
@@ -72,7 +72,7 @@ class ArticlesList extends Component {
     return (
       <main className="articles-list">
         <section className="sort_by">
-          <span>Sort by: {sort_by} </span>
+          <span>Sort by: </span>
           <button onClick={() => this.setSortedBy('created_at')}>Date</button>
           <button onClick={() => this.setSortedBy('votes')}>Votes</button>
           <button onClick={() => this.setSortedBy('comment_count')}>Comments</button>

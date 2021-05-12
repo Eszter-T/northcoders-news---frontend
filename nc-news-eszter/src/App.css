@@ -28,7 +28,7 @@
   grid-template-rows: auto;
   grid-template-columns: 85% auto;
   grid-template-areas: 
-  "heading user";
+  "heading user-picture user";
 }
 
 .heading {
@@ -40,11 +40,11 @@
   grid-area: user;
   text-align: right;
   margin-top: 25px;
-  margin-right: 10px;
+  margin-right: 20px;
 }
 
 .user-picture {
-  grid-area: user;
+  grid-area: user-picture;
   height: 45px;
   width: 48px;
   border-radius: 50%;
@@ -240,6 +240,11 @@ h4.articles-title {
   color: white;
   font-weight: bold;
   border: 2px rgb(0, 29, 61) solid;
+}
+
+.form #post-button:disabled {
+  opacity: 0.5;
+  cursor:not-allowed;
 }
 
 .comments-sort_by {

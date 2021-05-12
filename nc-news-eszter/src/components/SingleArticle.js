@@ -14,9 +14,13 @@ class SingleArticle extends Component {
   };
 
   componentDidMount() {
+    const inheritedVotingSort = ["created_at", "votes"].includes(this.state.sort_by) 
+      ? this.state.sort_by
+      : "created_at";
+
     Promise.all([
       fetchArticle(this.props.article_id),
-      fetchComments(this.props.article_id, this.state.sort_by)
+      fetchComments(this.props.article_id, inheritedVotingSort)
     ])
     .then(([article, comments]) => {
       this.setState({ article, comments });
@@ -46,8 +50,14 @@ class SingleArticle extends Component {
     this.componentDidMount();
   };
 
+  refreshComments = () => {
+    console.log("Refreshing comments")
+    this.componentDidMount();
+  };
+
   render() {
-    const { article, comments, sort_by, err } = this.state;
+    const { article, comments, err } = this.state;
+  
     const {
       title,
       author,
@@ -56,7 +66,7 @@ class SingleArticle extends Component {
       comment_count,
       article_id
     } = article;
-    
+
     if (err) {
       return (
         <ErrorPage status={err.response.status} msg={err.response.data.msg} />
@@ -80,13 +90,13 @@ class SingleArticle extends Component {
         <AddComment article_id={article_id} addPostedComment={this.addPostedComment} />
         <section className="comments-sort_by">
           <div id="sort_by">
-            <span>Sort by: {sort_by}</span>
+            <span>Sort by: </span>
             <button onClick={() => this.setSortedBy('created_at')}>Date</button>
             <button onClick={() => this.setSortedBy('votes')}>Votes</button>
           </div>
           <div id="comment_count">{comment_count} comments</div>
         </section>
-        <Comments article_id={article_id} comments={comments} />
+        <Comments article_id={article_id} comments={comments} onDelete={this.refreshComments} />
       </main>
     )
   };

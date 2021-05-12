@@ -38,8 +38,6 @@ export const postComment = (article_id, newComment) => {
   });
 };
 
-/*export const postLoggedInUser = (username, password) => {
-  return request.post("/users", { params: { username: username, password: password }}).then(({ data }) => {
-    return data.user;
-  })
-}*/
+export const deleteComment = (comment_id) => {
+  return request.delete(`/comments/${comment_id}`)
+};

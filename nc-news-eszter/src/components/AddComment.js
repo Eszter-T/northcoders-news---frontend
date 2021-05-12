@@ -38,7 +38,7 @@ class AddComment extends Component {
           value={comment}
           placeholder="Write a comment..."
         ></textarea>
-        <button id="post-button">Post</button>
+        <button id="post-button" disabled={comment.length === 0}>Post</button>
       </form>
     );
   };

@@ -7,7 +7,7 @@ const Title = () => {
       <div className="new-title"> 
         <h1 className="heading">Northcoders News</h1>
         <div className="user">jessjelly</div>
-        <img className="user-picture" src={userPicture}  />
+        <img className="user-picture" src={userPicture} alt="user profile" />
       </div>
     </header>
   );
