@@ -51,7 +51,6 @@ class SingleArticle extends Component {
   };
 
   refreshComments = () => {
-    console.log("Refreshing comments")
     this.componentDidMount();
   };
 
