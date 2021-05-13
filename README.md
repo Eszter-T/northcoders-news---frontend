@@ -10,13 +10,13 @@ Northcoders News is a React application, it was built with JavaScript. I used Ax
 ## Instructions
 
 - Clone the project: run `git clone git@github.com:Eszter-T/northcoders-news---frontend.git` in your terminal.
-- Npm install: After opening the project with Visual Studio Code run `npm install` to install the project's dependencies.
-- Start the project: change directory to 'nc-news-eszter' and run `npm start` to start the project in your browser.
+- Npm install: After opening the project with Visual Studio Code, make sure you are in the 'fe-nc-news' folder and run `npm install` to install the project's dependencies.
+- Start the project: run `npm start` to start the project in your browser.
 
 To run the project, the minimum version of Node you'll need is v15.5.1.
 
 ## Links
 Have a look at the:
- - hosted version of the project: 
+ - hosted version of the project: https://eszter-nc-news.herokuapp.com/
  - backend repository of the project: https://github.com/Eszter-T/northcoders-news---backend
  - hosted version of the backend project: https://nc-news-eszter.herokuapp.com/api
