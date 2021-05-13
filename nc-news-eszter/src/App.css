@@ -323,6 +323,27 @@ h4.articles-title {
   .articles-list > section {
     margin-top: 10px;
   }
+  
+  .articles-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .articles-card > * {
+    min-width: 660px;
+  }
+
+  .articles-card p {
+    max-width: 660px;
+  } 
+
+  .comments {
+    max-width: 660px;
+  }
+
+  .comments > section {
+    margin: 10px 0px; 
+  }
 }
 
 @media only screen and (max-width: 800px) {
